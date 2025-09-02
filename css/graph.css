@@ -1,0 +1,72 @@
+/* Graph visualization specific styles */
+
+/* Node styling */
+.node circle {
+    stroke-width: 2px;
+    transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.dark .node circle {
+    fill: #2d3748;
+}
+
+/* Edge styling */
+.link {
+    fill: none;
+    stroke-width: 2px;
+    transition: stroke 0.3s ease;
+}
+
+.dark .link {
+    stroke-opacity: 0.6;
+}
+
+/* Component separation */
+.component-container {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+/* Edge weight labels */
+.edge-weight {
+    font-size: 12px;
+    transition: fill 0.3s ease;
+}
+
+.dark .edge-weight {
+    fill: #e2e8f0;
+}
+
+/* Component title styling */
+.component-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Node color variations */
+.node.component-1 circle { fill: #4299e1; stroke: #2b6cb0; }
+.node.component-2 circle { fill: #48bb78; stroke: #2f855a; }
+.node.component-3 circle { fill: #ed8936; stroke: #c05621; }
+.node.component-4 circle { fill: #9f7aea; stroke: #6b46c1; }
+.node.component-5 circle { fill: #f56565; stroke: #c53030; }
+
+.dark .node.component-1 circle { fill: #2c5282; stroke: #4299e1; }
+.dark .node.component-2 circle { fill: #276749; stroke: #48bb78; }
+.dark .node.component-3 circle { fill: #9c4221; stroke: #ed8936; }
+.dark .node.component-4 circle { fill: #553c9a; stroke: #9f7aea; }
+.dark .node.component-5 circle { fill: #9b2c2c; stroke: #f56565; }
+
+/* Link color variations */
+.link.component-1 { stroke: #4299e1; }
+.link.component-2 { stroke: #48bb78; }
+.link.component-3 { stroke: #ed8936; }
+.link.component-4 { stroke: #9f7aea; }
+.link.component-5 { stroke: #f56565; }
+
+.dark .link.component-1 { stroke: #4299e1; opacity: 0.7; }
+.dark .link.component-2 { stroke: #48bb78; opacity: 0.7; }
+.dark .link.component-3 { stroke: #ed8936; opacity: 0.7; }
+.dark .link.component-4 { stroke: #9f7aea; opacity: 0.7; }
+.dark .link.component-5 { stroke: #f56565; opacity: 0.7; }
