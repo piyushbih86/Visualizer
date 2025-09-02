@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Binary Tree Test</title>
+    <style>
+        #tree {
+            border: 2px solid red;
+            min-height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Binary Tree Test</h1>
+    <textarea id="inp">1 2 3 null 4 5 null</textarea>
+    <button onclick="action()">Create Tree</button>
+    <div id="tree" style="border: 2px solid red; min-height: 300px;"></div>
+    <a href="../">Back to Home</a>
+
+    <!-- Scripts -->
+    <script>
+        function getTreeType() {
+            console.log("getTreeType called, returning 'bt'");
+            return 'bt';
+        }
+        
+        function getGraphWeightType() {
+            return 'unweighted';
+        }
+    </script>
+    <script src="../js/d3js.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/binaryTree.js"></script>
+    <script src="../js/treeTypes.js"></script>
+    <script src="../js/draw.js"></script>
+    <script>
+        console.log("Script loaded");
+        window.onload = function() {
+            console.log("Window loaded");
+            setTimeout(function() {
+                console.log("Creating tree");
+                action();
+            }, 500);
+        };
+    </script>
+</body>
+</html>

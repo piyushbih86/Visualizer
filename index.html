@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'gradient': 'gradient 15s ease infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'pulse-slow': 'pulse 4s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out',
+                    }
+                }
+            }
+        }
+    </script>
+    <title>Data Structure Visualizer</title>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .float-animation { animation: float 6s ease-in-out infinite; }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out; }
+        .pulse-slow { animation: pulse 4s ease-in-out infinite; }
+        
+        .gradient-bg-light {
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        .gradient-bg-dark {
+            background: linear-gradient(-45deg, #0f0f23, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        .glass-card-light {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glass-card-dark {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        
+        .theme-transition {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .theme-toggle.dark::before {
+            transform: translateX(30px);
+            background: #374151;
+        }
+    </style>
+</head>
+
+<body class="theme-transition" id="main-body">
+    <!-- Theme Toggle Button -->
+    <div class="fixed top-6 right-6 z-50">
+        <div class="flex items-center space-x-3">
+            <span class="text-sm font-medium theme-transition" id="theme-label">🌙 Dark</span>
+            <div class="theme-toggle" id="theme-toggle"></div>
+        </div>
+    </div>
+
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-20 left-10 w-32 h-32 bg-white/5 dark:bg-white/10 rounded-full float-animation theme-transition"></div>
+        <div class="absolute top-40 right-20 w-24 h-24 bg-white/10 dark:bg-white/5 rounded-full float-animation theme-transition" style="animation-delay: 2s;"></div>
+        <div class="absolute bottom-32 left-1/4 w-40 h-40 bg-white/5 dark:bg-white/10 rounded-full float-animation theme-transition" style="animation-delay: 4s;"></div>
+        <div class="absolute bottom-20 right-10 w-28 h-28 bg-white/10 dark:bg-white/5 rounded-full float-animation theme-transition" style="animation-delay: 1s;"></div>
+    </div>
+
+    <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-12">
+        <!-- Header Section -->
+        <div class="text-center mb-16 animate-fade-in-up">
+            <div class="text-8xl md:text-9xl mb-8 pulse-slow">🎯</div>
+            <h1 class="text-5xl md:text-7xl font-bold text-white dark:text-gray-100 mb-6 drop-shadow-2xl theme-transition">
+                Data Structure
+                <span class="bg-gradient-to-r from-pink-400 to-purple-400 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
+                    Visualizer
+                </span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-200 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed theme-transition">
+                Interactive visualization tools for understanding complex data structures. 
+                Learn through beautiful, animated diagrams.
+            </p>
+            
+            <!-- Feature Pills -->
+            <div class="flex flex-wrap justify-center gap-3 mb-8">
+                <span class="px-4 py-2 bg-white/20 backdrop-blur rounded-full text-white text-sm font-medium">
+                    🚀 Real-time Updates
+                </span>
+                <span class="px-4 py-2 bg-white/20 backdrop-blur rounded-full text-white text-sm font-medium">
+                    🎨 Beautiful Animations
+                </span>
+                <span class="px-4 py-2 bg-white/20 backdrop-blur rounded-full text-white text-sm font-medium">
+                    📱 Responsive Design
+                </span>
+                <span class="px-4 py-2 bg-white/20 backdrop-blur rounded-full text-white text-sm font-medium">
+                    📤 Export SVG
+                </span>
+            </div>
+        </div>
+        
+        <!-- Visualizer Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl w-full mb-16">
+            <!-- BST Card -->
+            <div class="glass-card-light dark:glass-card-dark rounded-3xl p-8 text-center transition-all duration-500 hover-lift animate-fade-in-up theme-transition" style="animation-delay: 0.2s;">
+                <div class="text-6xl mb-6 float-animation">🌳</div>
+                <h2 class="text-2xl font-bold text-white dark:text-gray-100 mb-4 theme-transition">Binary Search Tree</h2>
+                <p class="text-gray-200 dark:text-gray-300 mb-6 leading-relaxed theme-transition">
+                    Visualize BST operations with ordered node insertion. 
+                    Perfect for understanding search algorithms and tree traversals.
+                </p>
+                <div class="space-y-3 mb-6">
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-300 dark:text-gray-400 theme-transition">
+                        <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+                        Ordered Insertion
+                    </div>
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-300 dark:text-gray-400 theme-transition">
+                        <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                        Search Operations
+                    </div>
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-300 dark:text-gray-400 theme-transition">
+                        <span class="w-2 h-2 bg-purple-400 rounded-full"></span>
+                        Null Node Support
+                    </div>
+                </div>
+                <a href="bst/index.html" 
+                   class="inline-block bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 dark:from-emerald-600 dark:to-teal-700 dark:hover:from-emerald-700 dark:hover:to-teal-800 text-white font-bold py-3 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
+                    Explore BST 🚀
+                </a>
+            </div>
+            
+            <!-- Binary Tree Card -->
+            <div class="glass-card-light dark:glass-card-dark rounded-3xl p-8 text-center transition-all duration-500 hover-lift animate-fade-in-up theme-transition" style="animation-delay: 0.4s;">
+                <div class="text-6xl mb-6 float-animation" style="animation-delay: 2s;">🌲</div>
+                <h2 class="text-2xl font-bold text-white dark:text-gray-100 mb-4 theme-transition">Binary Tree</h2>
+                <p class="text-gray-200 dark:text-gray-300 mb-6 leading-relaxed theme-transition">
+                    Level-order binary tree construction with null node support. 
+                    Great for learning tree traversals and structure concepts.
+                </p>
+                <div class="space-y-3 mb-6">
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-300 dark:text-gray-400 theme-transition">
+                        <span class="w-2 h-2 bg-orange-400 rounded-full"></span>
+                        Level-order Build
+                    </div>
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-300 dark:text-gray-400 theme-transition">
+                        <span class="w-2 h-2 bg-pink-400 rounded-full"></span>
+                        Breadth-first
+                    </div>
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-300 dark:text-gray-400 theme-transition">
+                        <span class="w-2 h-2 bg-indigo-400 rounded-full"></span>
+                        Complete Trees
+                    </div>
+                </div>
+                <a href="binary-tree/index.html" 
+                   class="inline-block bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 dark:from-orange-600 dark:to-red-700 dark:hover:from-orange-700 dark:hover:to-red-800 text-white font-bold py-3 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
+                    Explore Binary Tree 🌿
+                </a>
+            </div>
+            
+            <!-- Graph Card -->
+            <div class="glass-card-light dark:glass-card-dark rounded-3xl p-8 text-center transition-all duration-500 hover-lift animate-fade-in-up md:col-span-2 lg:col-span-1 theme-transition" style="animation-delay: 0.6s;">
+                <div class="text-6xl mb-6 float-animation" style="animation-delay: 4s;">🕸️</div>
+                <h2 class="text-2xl font-bold text-white dark:text-gray-100 mb-4 theme-transition">Graph Visualization</h2>
+                <p class="text-gray-200 dark:text-gray-300 mb-6 leading-relaxed theme-transition">
+                    Interactive graph visualization with support for weighted/unweighted, 
+                    directed/undirected graphs and multiple components.
+                </p>
+                <div class="space-y-3 mb-6">
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-300 dark:text-gray-400 theme-transition">
+                        <span class="w-2 h-2 bg-cyan-400 rounded-full"></span>
+                        Multiple Components
+                    </div>
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-300 dark:text-gray-400 theme-transition">
+                        <span class="w-2 h-2 bg-violet-400 rounded-full"></span>
+                        Weighted/Unweighted
+                    </div>
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-300 dark:text-gray-400 theme-transition">
+                        <span class="w-2 h-2 bg-rose-400 rounded-full"></span>
+                        Directed/Undirected
+                    </div>
+                </div>
+                <a href="graph/index.html" 
+                   class="inline-block bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 dark:from-purple-600 dark:to-pink-700 dark:hover:from-purple-700 dark:hover:to-pink-800 text-white font-bold py-3 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
+                    Explore Graphs 🌐
+                </a>
+            </div>
+        </div>
+        
+        <!-- Bottom CTA Section -->
+        <div class="text-center animate-fade-in-up" style="animation-delay: 0.8s;">
+            <p class="text-lg text-gray-200 dark:text-gray-300 mb-6 theme-transition">
+                Ready to start learning? Pick a data structure and begin visualizing!
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="window.location.href='bst/index.html'" 
+                        class="px-6 py-3 bg-white/20 dark:bg-white/10 backdrop-blur text-white font-medium rounded-xl hover:bg-white/30 dark:hover:bg-white/20 transition-all duration-300 transform hover:scale-105 theme-transition">
+                    Quick Start BST
+                </button>
+                <button onclick="window.location.href='graph/index.html'" 
+                        class="px-6 py-3 bg-white/20 dark:bg-white/10 backdrop-blur text-white font-medium rounded-xl hover:bg-white/30 dark:hover:bg-white/20 transition-all duration-300 transform hover:scale-105 theme-transition">
+                    Try Graph Mode
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced GitHub Link -->
+    <a href="https://github.com/piyushbih86/Visualizer" target="blank" 
+       class="fixed top-6 left-6 bg-white/10 dark:bg-black/20 backdrop-blur p-4 rounded-2xl hover:bg-white/20 dark:hover:bg-black/30 transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-2xl z-20 group theme-transition">
+        <img src="media/githubLogo.png" alt="GitHub Repository" class="w-8 h-8 group-hover:rotate-12 transition-transform duration-300">
+    </a>
+    
+    <!-- Footer -->
+    <div class="fixed bottom-6 left-6 text-white/60 dark:text-gray-400 text-sm theme-transition">
+        <p>Built with ❤️ using D3.js & Tailwind CSS</p>
+    </div>
+
+    <script>
+        // Theme Management
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeLabel = document.getElementById('theme-label');
+        const body = document.getElementById('main-body');
+        
+        // Check for saved theme preference or default to 'dark'
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        
+        // Apply initial theme
+        if (currentTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            body.classList.add('gradient-bg-dark');
+            body.classList.remove('gradient-bg-light');
+            themeToggle.classList.add('dark');
+            themeLabel.innerHTML = '☀️ Light';
+        } else {
+            document.documentElement.classList.remove('dark');
+            body.classList.add('gradient-bg-light');
+            body.classList.remove('gradient-bg-dark');
+            themeToggle.classList.remove('dark');
+            themeLabel.innerHTML = '🌙 Dark';
+        }
+        
+        // Theme toggle functionality
+        themeToggle.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                // Switch to light mode
+                document.documentElement.classList.remove('dark');
+                body.classList.add('gradient-bg-light');
+                body.classList.remove('gradient-bg-dark');
+                themeToggle.classList.remove('dark');
+                themeLabel.innerHTML = '🌙 Dark';
+                localStorage.setItem('theme', 'light');
+            } else {
+                // Switch to dark mode
+                document.documentElement.classList.add('dark');
+                body.classList.add('gradient-bg-dark');
+                body.classList.remove('gradient-bg-light');
+                themeToggle.classList.add('dark');
+                themeLabel.innerHTML = '☀️ Light';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+        
+        // Apply correct glass card classes based on theme
+        function updateGlassCards() {
+            const cards = document.querySelectorAll('.glass-card-light, .glass-card-dark');
+            cards.forEach(card => {
+                if (document.documentElement.classList.contains('dark')) {
+                    card.classList.remove('glass-card-light');
+                    card.classList.add('glass-card-dark');
+                } else {
+                    card.classList.remove('glass-card-dark');
+                    card.classList.add('glass-card-light');
+                }
+            });
+        }
+        
+        // Update cards on theme change
+        themeToggle.addEventListener('click', function() {
+            setTimeout(updateGlassCards, 100);
+        });
+        
+        // Initial update
+        updateGlassCards();
+    </script>
+</body>
+
+</html>
