@@ -1,24 +1,33 @@
 /* Graph visualization specific styles */
 
-/* Node styling */
+/* Node and link styling */
 .node circle {
+    fill: #fff;
+    stroke: #4299e1;
     stroke-width: 2px;
     transition: fill 0.3s ease, stroke 0.3s ease;
 }
 
 .dark .node circle {
-    fill: #2d3748;
+    fill: #1a202c;
+    stroke: #63b3ed;
+}
+
+.node text {
+    font-size: 14px;
+    transition: fill 0.3s ease;
 }
 
 /* Edge styling */
 .link {
     fill: none;
+    stroke: #cbd5e0;
     stroke-width: 2px;
     transition: stroke 0.3s ease;
 }
 
 .dark .link {
-    stroke-opacity: 0.6;
+    stroke: #4a5568;
 }
 
 /* Component separation */
@@ -26,11 +35,21 @@
     margin-bottom: 20px;
     padding: 15px;
     border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark .component-container {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Edge weight labels */
 .edge-weight {
     font-size: 12px;
+    fill: #4a5568;
     transition: fill 0.3s ease;
 }
 
@@ -43,30 +62,134 @@
     font-weight: 600;
     font-size: 16px;
     margin-bottom: 10px;
+    color: #2d3748;
+    transition: color 0.3s ease;
 }
 
-/* Node color variations */
-.node.component-1 circle { fill: #4299e1; stroke: #2b6cb0; }
-.node.component-2 circle { fill: #48bb78; stroke: #2f855a; }
-.node.component-3 circle { fill: #ed8936; stroke: #c05621; }
-.node.component-4 circle { fill: #9f7aea; stroke: #6b46c1; }
-.node.component-5 circle { fill: #f56565; stroke: #c53030; }
+.dark .component-title {
+    color: #e2e8f0;
+}
 
-.dark .node.component-1 circle { fill: #2c5282; stroke: #4299e1; }
-.dark .node.component-2 circle { fill: #276749; stroke: #48bb78; }
-.dark .node.component-3 circle { fill: #9c4221; stroke: #ed8936; }
-.dark .node.component-4 circle { fill: #553c9a; stroke: #9f7aea; }
-.dark .node.component-5 circle { fill: #9b2c2c; stroke: #f56565; }
+/* Node color variations by component */
+.node.component-1 circle {
+    fill: #4299e1;
+    stroke: #2b6cb0;
+}
+
+.node.component-2 circle {
+    fill: #48bb78;
+    stroke: #2f855a;
+}
+
+.node.component-3 circle {
+    fill: #ed8936;
+    stroke: #c05621;
+}
+
+.node.component-4 circle {
+    fill: #9f7aea;
+    stroke: #6b46c1;
+}
+
+.node.component-5 circle {
+    fill: #f56565;
+    stroke: #c53030;
+}
+
+/* Dark mode node colors */
+.dark .node.component-1 circle {
+    fill: #2c5282;
+    stroke: #4299e1;
+}
+
+.dark .node.component-2 circle {
+    fill: #276749;
+    stroke: #48bb78;
+}
+
+.dark .node.component-3 circle {
+    fill: #9c4221;
+    stroke: #ed8936;
+}
+
+.dark .node.component-4 circle {
+    fill: #553c9a;
+    stroke: #9f7aea;
+}
+
+.dark .node.component-5 circle {
+    fill: #9b2c2c;
+    stroke: #f56565;
+}
 
 /* Link color variations */
-.link.component-1 { stroke: #4299e1; }
-.link.component-2 { stroke: #48bb78; }
-.link.component-3 { stroke: #ed8936; }
-.link.component-4 { stroke: #9f7aea; }
-.link.component-5 { stroke: #f56565; }
+.link.component-1 {
+    stroke: #4299e1;
+}
 
-.dark .link.component-1 { stroke: #4299e1; opacity: 0.7; }
-.dark .link.component-2 { stroke: #48bb78; opacity: 0.7; }
-.dark .link.component-3 { stroke: #ed8936; opacity: 0.7; }
-.dark .link.component-4 { stroke: #9f7aea; opacity: 0.7; }
-.dark .link.component-5 { stroke: #f56565; opacity: 0.7; }
+.link.component-2 {
+    stroke: #48bb78;
+}
+
+.link.component-3 {
+    stroke: #ed8936;
+}
+
+.link.component-4 {
+    stroke: #9f7aea;
+}
+
+.link.component-5 {
+    stroke: #f56565;
+}
+
+/* Dark mode link colors */
+.dark .link.component-1 {
+    stroke: #4299e1;
+    opacity: 0.7;
+}
+
+.dark .link.component-2 {
+    stroke: #48bb78;
+    opacity: 0.7;
+}
+
+.dark .link.component-3 {
+    stroke: #ed8936;
+    opacity: 0.7;
+}
+
+.dark .link.component-4 {
+    stroke: #9f7aea;
+    opacity: 0.7;
+}
+
+.dark .link.component-5 {
+    stroke: #f56565;
+    opacity: 0.7;
+}
+
+/* Action buttons styling */
+.action-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 5px;
+    background: #4299e1;
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    background: #3182ce;
+}
+
+.dark .action-btn {
+    background: #2b6cb0;
+}
+
+.dark .action-btn:hover {
+    background: #2c5282;
+}
