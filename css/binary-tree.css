@@ -26,7 +26,8 @@
 }
 
 .dark .link {
-    stroke: #4a5568;
+    stroke: #a0aec0;
+    stroke-width: 2px;
 }
 
 /* Node color states */

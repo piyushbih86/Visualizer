@@ -47,31 +47,30 @@
             <p class="text-xl text-gray-200 dark:text-gray-300 mb-6 theme-transition">Interactive graph visualization with advanced features</p>
         </div>
         
-        <!-- Control Panel -->
+        <!-- Graph Options -->
         <div class="glass-effect-light dark:glass-effect-dark rounded-2xl p-6 mb-8 animate-fade-in-up theme-transition">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                <!-- Graph Type Options -->
-                <div class="space-y-4">
-                    <h3 class="text-lg font-semibold text-white mb-3">Graph Type</h3>
-                    <div class="space-y-3">
-                        <label class="flex items-center space-x-3 text-white cursor-pointer hover:bg-white/10 dark:hover:bg-black/20 p-2 rounded-lg transition-all theme-transition">
-                            <input type="radio" id="directed" name="graph-direction" value="directed" 
-                                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                            <span class="text-sm font-medium">Directed Graph</span>
-                        </label>
+                <!-- Direction Selection -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white dark:text-gray-100 mb-3 theme-transition">Graph Direction</h3>
+                    <div class="space-y-2">
                         <label class="flex items-center space-x-3 text-white cursor-pointer hover:bg-white/10 dark:hover:bg-black/20 p-2 rounded-lg transition-all theme-transition">
                             <input type="radio" id="undirected" name="graph-direction" value="undirected" checked
                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
                             <span class="text-sm font-medium">Undirected Graph</span>
                         </label>
+                        <label class="flex items-center space-x-3 text-white cursor-pointer hover:bg-white/10 dark:hover:bg-black/20 p-2 rounded-lg transition-all theme-transition">
+                            <input type="radio" id="directed" name="graph-direction" value="directed"
+                                   class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500">
+                            <span class="text-sm font-medium">Directed Graph</span>
+                        </label>
                     </div>
                 </div>
                 
-                <!-- Weight Options -->
-                <div class="space-y-4">
-                    <h3 class="text-lg font-semibold text-white mb-3">Weight Type</h3>
-                    <div class="space-y-3">
+                <!-- Weight Selection -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white dark:text-gray-100 mb-3 theme-transition">Graph Weight</h3>
+                    <div class="space-y-2">
                         <label class="flex items-center space-x-3 text-white cursor-pointer hover:bg-white/10 dark:hover:bg-black/20 p-2 rounded-lg transition-all theme-transition">
                             <input type="radio" id="unweighted" name="graph-weight" value="unweighted" checked
                                    class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500">
@@ -85,20 +84,20 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Hidden Tree Type Selection for Graph Mode -->
-            <input type="hidden" name="tree-type" value="graph" checked>
         </div>
-        
+
         <!-- Input Section -->
         <div class="glass-effect-light dark:glass-effect-dark rounded-2xl p-6 mb-8 animate-fade-in-up theme-transition">
             <label for="inp" class="block text-lg font-semibold text-white dark:text-gray-100 mb-4 theme-transition">Graph Input</label>
             <textarea 
                 id="inp" 
                 oninput="action()" 
-                placeholder="Enter unweighted edges: source,target&#10;Ex: A,B A,C B,D C,E&#10;For standalone nodes: F G H"
+                placeholder="Enter graph edges separated by space.&#10;Format: A,B A,C B,D C,E&#10;For standalone nodes: F G H"
                 class="w-full h-32 p-4 bg-white/10 dark:bg-black/20 backdrop-blur border border-white/20 dark:border-white/10 rounded-xl text-white dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent resize-none text-sm theme-transition"
             >A,B A,C B,D C,E</textarea>
+            
+            <!-- Hidden Tree Type Selection for Graph Mode -->
+            <input type="hidden" name="tree-type" value="graph" checked>
             
             <!-- Action Buttons -->
             <div class="flex flex-wrap gap-3 mt-4">
@@ -124,17 +123,10 @@
                 <div class="absolute inset-0 flex items-center justify-center text-white/50">
                     <div class="text-center">
                         <div class="text-6xl mb-4">🕸️</div>
-                        <p class="text-lg">Enter graph data to see visualization</p>
+                        <p class="text-lg">Enter values to build your Graph</p>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Navigation -->
-        <div class="mt-6 text-center">
-            <a href="../" class="inline-block px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg">
-                ← Back to Home
-            </a>
         </div>
     </div>
 
@@ -171,12 +163,14 @@
         // Apply initial theme
         if (currentTheme === 'dark') {
             document.documentElement.classList.add('dark');
-            body.classList.add('dark');
+            body.classList.add('gradient-bg-dark');
+            body.classList.remove('gradient-bg-light');
             themeToggle.classList.add('dark');
             themeLabel.innerHTML = '☀️ Light';
         } else {
             document.documentElement.classList.remove('dark');
-            body.classList.remove('dark');
+            body.classList.add('gradient-bg-light');
+            body.classList.remove('gradient-bg-dark');
             themeToggle.classList.remove('dark');
             themeLabel.innerHTML = '🌙 Dark';
         }
@@ -186,20 +180,37 @@
             if (document.documentElement.classList.contains('dark')) {
                 // Switch to light mode
                 document.documentElement.classList.remove('dark');
-                body.classList.remove('dark');
+                body.classList.add('gradient-bg-light');
+                body.classList.remove('gradient-bg-dark');
                 themeToggle.classList.remove('dark');
                 themeLabel.innerHTML = '🌙 Dark';
                 localStorage.setItem('theme', 'light');
             } else {
                 // Switch to dark mode
                 document.documentElement.classList.add('dark');
-                body.classList.add('dark');
+                body.classList.add('gradient-bg-dark');
+                body.classList.remove('gradient-bg-light');
                 themeToggle.classList.add('dark');
                 themeLabel.innerHTML = '☀️ Light';
                 localStorage.setItem('theme', 'dark');
             }
         });
-        
+        // Export functionality
+        function exportGraph() {
+            const svg = document.querySelector('#tree svg');
+            if (svg) {
+                const serializer = new XMLSerializer();
+                const svgString = serializer.serializeToString(svg);
+                const blob = new Blob([svgString], {type: 'image/svg+xml'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'graph-visualization.svg';
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+
         // Update placeholder based on options
         function updatePlaceholder() {
             const isWeighted = getGraphWeightType() === 'weighted';
@@ -224,29 +235,7 @@
                 action();
             }
         }
-        
-        // Clear and recreate tree
-        function clearAndCreate() {
-            document.getElementById('inp').value = '';
-            action();
-        }
-        
-        // Export functionality
-        function exportGraph() {
-            const svg = document.querySelector('#tree svg');
-            if (svg) {
-                const serializer = new XMLSerializer();
-                const svgString = serializer.serializeToString(svg);
-                const blob = new Blob([svgString], {type: 'image/svg+xml'});
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'graph-visualization.svg';
-                a.click();
-                URL.revokeObjectURL(url);
-            }
-        }
-        
+
         // Set up event listeners for options
         document.addEventListener('DOMContentLoaded', function() {
             const graphDirectionButtons = document.querySelectorAll('input[name="graph-direction"]');
@@ -261,11 +250,6 @@
             });
             
             updatePlaceholder();
-            
-            // Initialize graph with default data
-            setTimeout(function() {
-                action();
-            }, 500);
         });
     </script>
 

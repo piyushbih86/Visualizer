@@ -46,6 +46,37 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Node color states - same as binary tree */
+.node circle.green {
+    fill: #48bb78;
+    stroke: #2f855a;
+}
+
+.dark .node circle.green {
+    fill: #2f855a;
+    stroke: #48bb78;
+}
+
+.node circle.gold {
+    fill: #ecc94b;
+    stroke: #d69e2e;
+}
+
+.dark .node circle.gold {
+    fill: #d69e2e;
+    stroke: #ecc94b;
+}
+
+.node circle.gray {
+    fill: #a0aec0;
+    stroke: #718096;
+}
+
+.dark .node circle.gray {
+    fill: #4a5568;
+    stroke: #a0aec0;
+}
+
 /* Edge weight labels */
 .edge-weight {
     font-size: 12px;
@@ -68,6 +99,22 @@
 
 .dark .component-title {
     color: #e2e8f0;
+}
+
+/* Search button styling - similar to binary tree */
+.numContainer {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 5px;
+    background: #4299e1;
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.dark .numContainer {
+    background: #2b6cb0;
 }
 
 /* Node color variations by component */
@@ -169,27 +216,4 @@
     opacity: 0.7;
 }
 
-/* Action buttons styling */
-.action-btn {
-    display: inline-block;
-    padding: 8px 16px;
-    margin: 5px;
-    background: #4299e1;
-    color: white;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: transform 0.3s ease, background 0.3s ease;
-}
 
-.action-btn:hover {
-    transform: translateY(-2px);
-    background: #3182ce;
-}
-
-.dark .action-btn {
-    background: #2b6cb0;
-}
-
-.dark .action-btn:hover {
-    background: #2c5282;
-}

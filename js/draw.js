@@ -108,8 +108,8 @@ function drawGraph(data) {
                 }
             })
             .style("visibility",function(d){
-                // Show null nodes with different styling, hide Empty nodes
-                return d.value == "Empty" ? "hidden" : "visible"
+                // Hide both Empty and null nodes
+                return (d.value === "Empty" || d.value === "null") ? "hidden" : "visible"
             })
             .style("stroke", function(d) {
                 return d.value === "null" ? "red" : "black"; // Red border for null nodes
@@ -132,7 +132,7 @@ function drawGraph(data) {
                 return d.value;
             })
             .style("visibility",function(d){
-                return d.value == "Empty"? "hidden" : "visible"
+                return (d.value === "Empty" || d.value === "null") ? "hidden" : "visible"
             })
             .style("fill", function(d) {
                 return d.value === "null" ? "red" : "black"; // Red text for null nodes
@@ -147,7 +147,7 @@ function drawGraph(data) {
                 return d.target.id;
             })
             .style("visibility",function(d){
-                return d.target.value == "Empty"? "hidden" : "visible"
+                return (d.target.value === "Empty" || d.target.value === "null") ? "hidden" : "visible"
             })
             .style("stroke-dasharray", function(d) {
                 return d.target.value === "null" ? "3,3" : "none"; // Dashed lines for null nodes
@@ -158,7 +158,7 @@ function drawGraph(data) {
             .attr("fill", "none")
             .attr("stroke", "black")
             .style("visibility",function(d){
-                return d.target.value == "Empty"? "hidden" : "visible"
+                return (d.target.value === "Empty" || d.target.value === "null") ? "hidden" : "visible"
             })
             .style("stroke-dasharray", function(d) {
                 return d.target.value === "null" ? "3,3" : "none"; // Dashed lines for null nodes

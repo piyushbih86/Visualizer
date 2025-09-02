@@ -76,6 +76,50 @@ function createBST(arr) {
         console.warn("Empty array for BST");
         return;
     }
+
+    // Check for duplicate values in BST (not allowed in DSA)
+    const values = arr.map(node => node.value).filter(val => val !== "null");
+    const uniqueValues = new Set(values);
+    
+    if (values.length !== uniqueValues.size) {
+        // Find duplicates
+        const duplicates = values.filter((val, index) => values.indexOf(val) !== index);
+        console.error("BST Error: Duplicate values found:", duplicates);
+        
+        // Show error to user
+        const treeElement = document.getElementById("tree");
+        if (treeElement) {
+            treeElement.innerHTML = `
+                <div class="flex items-center justify-center h-full">
+                    <div class="text-center p-6 max-w-md">
+                        <div class="text-6xl mb-4">❌</div>
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">Invalid BST</h3>
+                        <p class="text-gray-300 mb-4">BST cannot have duplicate values!</p>
+                        <p class="text-sm text-red-300 mb-4">Duplicates found: ${duplicates.join(', ')}</p>
+                        <p class="text-xs text-gray-400 mb-4">In Data Structures, Binary Search Trees must have unique values for proper ordering.</p>
+                        <button onclick="clearInput()" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
+                            Fix Input
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        return;
+    }
+
+    // For BST, if input contains null values, treat it as level-order construction
+    // Otherwise, treat it as insertion order
+    const hasNulls = arr.some(node => node.value === "null");
+    
+    if (hasNulls) {
+        // Level-order construction (like binary tree)
+        console.log("BST with nulls - using level-order construction");
+        createBinaryTree(arr); // Use binary tree construction logic
+        return;
+    }
+    
+    // Traditional BST insertion (no nulls)
+    console.log("BST without nulls - using insertion order");
     
     // Start with the first node as root
     const rootNode = arr[0];
@@ -83,8 +127,10 @@ function createBST(arr) {
     
     // Insert the rest of the nodes into the BST
     for (var i = 1; i < arr.length; i++) {
-        console.log("Inserting node:", arr[i].value);
-        nodeDirectionBST(rootNode, arr[i]);
+        if (arr[i].value !== "null") { // Skip null values
+            console.log("Inserting node:", arr[i].value);
+            nodeDirectionBST(rootNode, arr[i]);
+        }
     }
 
     // Prepare the tree for visualization by setting up children array
@@ -92,7 +138,7 @@ function createBST(arr) {
     
     // Draw the tree
     try {
-        drawGraph(arr);
+        drawGraph(arr.filter(node => node.value !== "null")); // Only draw non-null nodes
         console.log("BST drawing complete");
     } catch (error) {
         console.error("Error drawing BST:", error);

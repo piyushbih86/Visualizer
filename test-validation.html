@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Level-Order Validation</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #1a1a1a; color: white; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #2d4a2d; }
+        .error { background: #4a2d2d; }
+        input { padding: 8px; margin: 5px; }
+        button { padding: 8px 16px; margin: 5px; background: #444; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #555; }
+    </style>
+</head>
+<body>
+    <h1>Level-Order Validation Test</h1>
+    
+    <div>
+        <input type="text" id="testInput" placeholder="Enter level-order values (e.g., 10 5 15 null 3 4)" value="10 5 15 null 3 4">
+        <button onclick="testValidation()">Test Validation</button>
+    </div>
+    
+    <div id="results"></div>
+    
+    <script>
+        // Include the Node class and validation functions
+        function Node(value, left, right) {
+            this.value = value;
+            this.left = left;
+            this.right = right;
+            this.children = [];
+        }
+
+        function validateLevelOrder(arr) {
+            if (!arr || arr.length === 0) return true;
+            
+            console.log("Starting level-order validation for:", arr.map(n => n.value));
+            
+            // Set to track valid positions (positions where nodes can exist)
+            const validPositions = new Set();
+            validPositions.add(0); // Root position is always valid
+            
+            for (let i = 0; i < arr.length; i++) {
+                console.log(`Checking position ${i}: value = ${arr[i].value}, validPositions = [${Array.from(validPositions)}]`);
+                
+                // Check if current position is valid
+                if (!validPositions.has(i)) {
+                    const parentIndex = Math.floor((i - 1) / 2);
+                    console.error(`Invalid position ${i}: value '${arr[i].value}' cannot exist (parent at ${parentIndex})`);
+                    showLevelOrderError(arr, i, parentIndex);
+                    return false;
+                }
+                
+                // If current position has a non-null value, its children positions become valid
+                if (arr[i].value !== "null") {
+                    const leftChild = 2 * i + 1;
+                    const rightChild = 2 * i + 2;
+                    validPositions.add(leftChild);
+                    validPositions.add(rightChild);
+                }
+            }
+            
+            console.log("Level-order validation passed");
+            return true;
+        }
+
+        function showLevelOrderError(arr, invalidIndex, parentIndex) {
+            const invalidValue = arr[invalidIndex].value;
+            const childType = (invalidIndex % 2 === 1) ? "left" : "right";
+            
+            const results = document.getElementById('results');
+            results.innerHTML += `
+                <div class="result error">
+                    <h3>❌ Invalid Level-Order Structure</h3>
+                    <p>Node '${invalidValue}' at position ${invalidIndex + 1} cannot exist!</p>
+                    <p>This would be the ${childType} child of position ${parentIndex + 1}</p>
+                    <p>Issue: Position ${parentIndex + 1} is null or doesn't have valid children</p>
+                </div>
+            `;
+        }
+
+        function testValidation() {
+            const input = document.getElementById('testInput').value;
+            const values = input.split(' ').filter(v => v.trim() !== '');
+            const arr = values.map(v => new Node(v, null, null));
+            
+            const results = document.getElementById('results');
+            results.innerHTML = `<div class="result"><strong>Testing input:</strong> ${input}</div>`;
+            
+            const isValid = validateLevelOrder(arr);
+            
+            if (isValid) {
+                results.innerHTML += `
+                    <div class="result success">
+                        <h3>✅ Valid Level-Order Structure</h3>
+                        <p>All nodes are in valid positions according to level-order traversal rules.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Test cases
+        window.addEventListener('load', function() {
+            const testCases = [
+                "10 5 15 null 3 4",  // Invalid: 4 can't exist (position 5, parent is null)
+                "10 5 15 null 3",    // Valid: 3 can exist (position 4, parent is 5)
+                "10 5 15 12 6",      // Valid: all positions are valid
+                "10 null 15 null null 12", // Invalid: 12 can't exist (position 5, parent is null)
+                "10 5 null 3",       // Valid: 3 can exist (position 3, parent is 5)
+            ];
+            
+            const results = document.getElementById('results');
+            results.innerHTML += `<h2>Automatic Test Cases:</h2>`;
+            
+            testCases.forEach(testCase => {
+                const values = testCase.split(' ').filter(v => v.trim() !== '');
+                const arr = values.map(v => new Node(v, null, null));
+                
+                results.innerHTML += `<div class="result"><strong>Testing:</strong> ${testCase}</div>`;
+                
+                const isValid = validateLevelOrder(arr);
+                
+                if (isValid) {
+                    results.innerHTML += `
+                        <div class="result success">
+                            <h3>✅ Valid</h3>
+                        </div>
+                    `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -6,6 +6,11 @@ function createBinaryTree(arr) {
         return;
     }
     
+    // Validate level-order structure first
+    if (!validateLevelOrder(arr)) {
+        return; // Stop if invalid
+    }
+    
     // Start with the first node as root
     const rootNode = arr[0];
     console.log("Binary Tree root:", rootNode.value);
@@ -13,7 +18,7 @@ function createBinaryTree(arr) {
     let queue = [rootNode]; // Start with the root
     let i = 1; // Start from the second element
     
-    while (i < arr.length) {
+    while (i < arr.length && queue.length > 0) {
         let current = queue.shift();
         if (!current) {
             console.warn("Queue empty before processing all nodes");
@@ -28,6 +33,8 @@ function createBinaryTree(arr) {
                 arr[i].parent = current;
                 arr[i].isLeft = true;
                 queue.push(arr[i]);
+            } else {
+                console.log("Skipping null left child at index", i);
             }
             i++;
         }
@@ -40,9 +47,17 @@ function createBinaryTree(arr) {
                 arr[i].parent = current;
                 arr[i].isRight = true;
                 queue.push(arr[i]);
+            } else {
+                console.log("Skipping null right child at index", i);
             }
             i++;
         }
+    }
+    
+    // If there are remaining nodes after queue is empty, they are invalid
+    if (i < arr.length) {
+        console.warn("Invalid structure: nodes exist after valid tree structure ends");
+        console.warn("Remaining nodes:", arr.slice(i).map(n => n.value));
     }
     
     // Prepare the tree for visualization by setting up children array
@@ -50,10 +65,69 @@ function createBinaryTree(arr) {
     
     // Draw the tree
     try {
-        drawGraph(arr);
+        drawGraph(arr.filter(node => node.value !== "null"));
         console.log("Binary Tree drawing complete");
     } catch (error) {
         console.error("Error drawing Binary Tree:", error);
+    }
+}
+
+function validateLevelOrder(arr) {
+    console.log("Validating level-order structure...");
+    
+    // Track which positions can have children
+    let validPositions = new Set([0]); // Root is always valid
+    
+    for (let i = 0; i < arr.length; i++) {
+        if (!validPositions.has(i) && arr[i].value !== "null") {
+            // This position shouldn't exist!
+            const parentIndex = Math.floor((i - 1) / 2);
+            
+            showLevelOrderError(arr, i, parentIndex);
+            return false;
+        }
+        
+        // If current position has a non-null value, its children positions become valid
+        if (arr[i].value !== "null") {
+            const leftChild = 2 * i + 1;
+            const rightChild = 2 * i + 2;
+            validPositions.add(leftChild);
+            validPositions.add(rightChild);
+        }
+    }
+    
+    console.log("Level-order validation passed");
+    return true;
+}
+
+function showLevelOrderError(arr, invalidIndex, parentIndex) {
+    const invalidValue = arr[invalidIndex].value;
+    const childType = (invalidIndex % 2 === 1) ? "left" : "right";
+    
+    console.error(`Invalid level-order: Node '${invalidValue}' at position ${invalidIndex} cannot exist`);
+    
+    const treeElement = document.getElementById("tree");
+    if (treeElement) {
+        treeElement.innerHTML = `
+            <div class="flex items-center justify-center h-full">
+                <div class="text-center p-6 max-w-lg">
+                    <div class="text-6xl mb-4">🚫</div>
+                    <h3 class="text-xl font-semibold text-red-400 mb-2">Invalid Level-Order Structure</h3>
+                    <p class="text-gray-300 mb-4">Node <span class="text-yellow-400">'${invalidValue}'</span> at position ${invalidIndex + 1} cannot exist!</p>
+                    <div class="text-sm text-gray-400 mb-4 bg-gray-800 p-3 rounded">
+                        <p class="mb-2">🔍 <strong>Issue:</strong> This would be the <strong>${childType} child</strong> of position ${parentIndex + 1}</p>
+                        <p class="mb-2">❌ <strong>Problem:</strong> Position ${parentIndex + 1} is null or doesn't have valid children</p>
+                        <p>✅ <strong>Solution:</strong> Remove nodes that come after null positions</p>
+                    </div>
+                    <div class="text-xs text-blue-300 mb-4">
+                        <p><strong>DSA Rule:</strong> In level-order traversal, a node can only exist if its parent exists and is not null.</p>
+                    </div>
+                    <button onclick="clearInput()" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
+                        Fix Input
+                    </button>
+                </div>
+            </div>
+        `;
     }
 }
 

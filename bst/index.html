@@ -44,10 +44,30 @@
         <!-- Input Section -->
         <div class="glass-effect-light dark:glass-effect-dark rounded-2xl p-6 mb-8 animate-fade-in-up theme-transition">
             <label for="inp" class="block text-lg font-semibold text-white dark:text-gray-100 mb-4 theme-transition">BST Input</label>
+            
+            <!-- Custom NULL Value Setting -->
+            <div class="mb-4">
+                <label for="nullValue" class="block text-sm font-medium text-white dark:text-gray-300 mb-2">Custom NULL Value (default: "null")</label>
+                <div class="flex gap-2">
+                    <input 
+                        type="text" 
+                        id="nullValue" 
+                        value="null" 
+                        placeholder="Enter custom null value (e.g., null, X, -, empty)"
+                        class="flex-1 p-2 bg-white/10 dark:bg-black/20 backdrop-blur border border-white/20 dark:border-white/10 rounded-lg text-white dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm theme-transition"
+                    />
+                    <button onclick="applyNullValue()" 
+                            class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-all duration-200 shadow-lg text-sm">
+                        Apply
+                    </button>
+                </div>
+                <div id="nullStatus" class="text-xs text-green-400 mt-1">✓ Current NULL value: "null"</div>
+            </div>
+            
             <textarea 
                 id="inp" 
                 oninput="action()" 
-                placeholder="Enter values separated by space. The root is the first element.&#10;You can use &quot;null&quot; to represent empty nodes.&#10;Example: 10 5 15 null 7 null 20"
+                placeholder="Enter unique values separated by space. No duplicates allowed in BST!&#10;Use your custom null value above to represent empty nodes.&#10;Example: 10 5 15 null 7 null 20"
                 class="w-full h-32 p-4 bg-white/10 dark:bg-black/20 backdrop-blur border border-white/20 dark:border-white/10 rounded-xl text-white dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent resize-none text-sm theme-transition"
             ></textarea>
             
@@ -145,6 +165,39 @@
         // Force BST mode
         function getTreeType() { return 'bst'; }
         function getGraphWeightType() { return 'unweighted'; }
+        
+        // Apply custom null value
+        function applyNullValue() {
+            const nullValue = document.getElementById('nullValue').value.trim() || 'null';
+            const status = document.getElementById('nullStatus');
+            status.innerHTML = `✓ Current NULL value: "${nullValue}"`;
+            status.className = 'text-xs text-green-400 mt-1';
+            
+            // Update placeholder
+            updatePlaceholder();
+            
+            // Rebuild tree with new null value
+            action();
+        }
+        
+        // Update placeholder text when custom null value changes
+        function updatePlaceholder() {
+            const nullValue = document.getElementById('nullValue').value || 'null';
+            const textArea = document.getElementById('inp');
+            textArea.placeholder = `Enter unique values separated by space. No duplicates allowed in BST!\nUse "${nullValue}" to represent empty nodes.\nExample: 10 5 15 ${nullValue} 7 ${nullValue} 20`;
+        }
+        
+        // Add event listener for null value input
+        document.addEventListener('DOMContentLoaded', function() {
+            const nullValueInput = document.getElementById('nullValue');
+            if (nullValueInput) {
+                nullValueInput.addEventListener('input', function() {
+                    const status = document.getElementById('nullStatus');
+                    status.innerHTML = `⚠️ Press "Apply" to use: "${this.value || 'null'}"`;
+                    status.className = 'text-xs text-yellow-400 mt-1';
+                });
+            }
+        });
         
         // Export functionality
         function exportSVG() {
